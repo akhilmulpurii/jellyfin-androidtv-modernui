@@ -355,21 +355,6 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setPlayingIndicator(true);
         } else {
             holder.mCardView.setPlayingIndicator(false);
-
-            if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getType() != BaseItemKind.USER_VIEW) {
-                RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
-                if (ratingType == RatingType.RATING_TOMATOES) {
-                    Drawable badge = rowItem.getBadgeImage(holder.view.getContext(), imageHelper.getValue());
-                    holder.mCardView.setRating(null);
-                    if (badge != null) {
-                        holder.mCardView.setBadgeImage(badge);
-                    }
-                } else if (ratingType == RatingType.RATING_STARS &&
-                        rowItem.getBaseItem().getCommunityRating() != null) {
-                    holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
-                    holder.mCardView.setRating(String.format(Locale.US, "%.1f", rowItem.getBaseItem().getCommunityRating()));
-                }
-            }
         }
 
         JellyfinImage image = null;

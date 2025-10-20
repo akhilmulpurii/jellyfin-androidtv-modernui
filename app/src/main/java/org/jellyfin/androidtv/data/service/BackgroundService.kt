@@ -66,7 +66,7 @@ class BackgroundService(
 			return clearBackgrounds()
 
 		// Enable blur for backdrops
-		_blurBackground.value = true
+		_blurBackground.value = userPreferences[UserPreferences.backdropBlurEnabled]
 
 		// Get all backdrop urls
 		val backdropImages = mutableListOf<org.jellyfin.androidtv.util.apiclient.JellyfinImage>()

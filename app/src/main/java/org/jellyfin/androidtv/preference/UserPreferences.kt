@@ -49,6 +49,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable theme songs while browsing
 		 */
+		var backdropBlurEnabled = booleanPreference("pref_backdrop_blur", false)
+
+		/**
+		 * Enable theme songs while browsing
+		 */
 		var themeSongsEnabled = booleanPreference("pref_play_theme_songs", true)
 
 		/**

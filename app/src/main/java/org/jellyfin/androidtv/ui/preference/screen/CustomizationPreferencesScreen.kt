@@ -49,6 +49,12 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.lbl_enable_blur_backdrop)
+				setContent(R.string.pref_enable_blur_backdrop_description)
+				bind(userPreferences, UserPreferences.backdropBlurEnabled)
+			}
+
+			checkbox {
 				setTitle(R.string.lbl_play_theme_songs)
 				setContent(R.string.pref_play_theme_songs_description)
 				bind(userPreferences, UserPreferences.themeSongsEnabled)

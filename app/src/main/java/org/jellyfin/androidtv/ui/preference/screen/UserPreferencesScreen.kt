@@ -5,8 +5,12 @@ import org.jellyfin.androidtv.ui.preference.category.aboutCategory
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.util.UserSwitchHelper
+import org.koin.android.ext.android.inject
 
 class UserPreferencesScreen : OptionsFragment() {
+	private val userSwitchHelper: UserSwitchHelper by inject()
+
 	override val screen by optionsScreen {
 		setTitle(R.string.settings_title)
 
@@ -44,6 +48,16 @@ class UserPreferencesScreen : OptionsFragment() {
 				setContent(R.string.pref_developer_link_description)
 				icon = R.drawable.ic_flask
 				withFragment<DeveloperPreferencesScreen>()
+			}
+
+			action {
+				setTitle(R.string.lbl_switch_user)
+				content = getString(R.string.pref_switch_user_description)
+				icon = R.drawable.ic_switch_users
+
+				onActivate = {
+					activity?.let { userSwitchHelper.switchUser(it) }
+				}
 			}
 		}
 

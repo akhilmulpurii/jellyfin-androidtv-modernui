@@ -80,10 +80,13 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/user_avatar_background"
+            android:clipToOutline="true"
             android:scaleType="centerCrop"
             android:contentDescription="User profile"
             android:nextFocusLeft="@id/nav_pills_container"
+            app:circleCrop="true"
             tools:src="@drawable/ic_person" />
     </FrameLayout>
 
 </RelativeLayout>
+

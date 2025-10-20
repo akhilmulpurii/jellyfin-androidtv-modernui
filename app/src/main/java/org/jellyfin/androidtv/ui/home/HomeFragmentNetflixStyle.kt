@@ -226,19 +226,7 @@ class HomeFragmentNetflixStyle : Fragment() {
             previewAgeRating.visibility = View.VISIBLE
         } ?: run { previewAgeRating.visibility = View.GONE }
     }
-
-    private fun switchUser() {
-        mediaManager.clearAudioQueue()
-        sessionRepository.destroyCurrentSession()
-
-        val selectUserIntent = Intent(activity, StartupActivity::class.java)
-        selectUserIntent.putExtra(StartupActivity.EXTRA_HIDE_SPLASH, true)
-        selectUserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-
-        activity?.startActivity(selectUserIntent)
-        activity?.finishAfterTransition()
-    }
-    
+	
     private fun navigateToLibraryType(collectionType: CollectionType) {
         lifecycleScope.launch {
             try {
@@ -274,7 +262,7 @@ class HomeFragmentNetflixStyle : Fragment() {
         // User avatar container
         val userAvatarContainer = view.findViewById<View>(R.id.toolbar_user_avatar_container)
         userAvatarContainer?.setOnClickListener {
-            switchUser()
+			startActivity(ActivityDestinations.userPreferences(requireContext()))
         }
         
         // Get the actual user avatar for loading image
@@ -322,24 +310,7 @@ class HomeFragmentNetflixStyle : Fragment() {
                         previousButtonId = tabButton.id
                     }
                 }
-                
-                // Add Jellyfin tab (always present)
-                val jellyfinTab = createJellyfinTab()
-                navContainer?.addView(jellyfinTab)
-                
-                // Set up focus navigation for Jellyfin tab
-                if (previousButtonId != null) {
-                    jellyfinTab.nextFocusLeftId = previousButtonId
-                    view.findViewById<View>(previousButtonId)?.nextFocusRightId = jellyfinTab.id
-                } else {
-                    // If no libraries, connect search directly to Jellyfin
-                    view.findViewById<View>(R.id.toolbar_search)?.nextFocusRightId = jellyfinTab.id
-                }
-                
-                // Connect last tab to user avatar
-                jellyfinTab.nextFocusRightId = R.id.toolbar_user_avatar
-                view.findViewById<View>(R.id.toolbar_user_avatar)?.nextFocusLeftId = jellyfinTab.id
-                
+
             } catch (e: Exception) {
                 timber.log.Timber.e(e, "Failed to set up dynamic navigation tabs")
                 // Fallback to static tabs if dynamic setup fails
@@ -384,41 +355,7 @@ class HomeFragmentNetflixStyle : Fragment() {
             }
         }
     }
-    
-    private fun createJellyfinTab(): TextView {
-        return TextView(requireContext()).apply {
-            id = View.generateViewId()
-            layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                resources.getDimensionPixelSize(R.dimen.toolbar_nav_button_height)
-            ).apply {
-                leftMargin = resources.getDimensionPixelSize(R.dimen.toolbar_nav_button_margin)
-            }
-            text = "Jellyfin"
-            textSize = 15f
-            setTextColor(resources.getColorStateList(R.color.nav_text_color, null))
-            typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)
-            gravity = android.view.Gravity.CENTER
-            setPadding(
-                resources.getDimensionPixelSize(R.dimen.toolbar_nav_button_padding_horizontal),
-                0,
-                resources.getDimensionPixelSize(R.dimen.toolbar_nav_button_padding_horizontal),
-                0
-            )
-            background = resources.getDrawable(R.drawable.nav_pill_animated_background, null)
-            stateListAnimator = android.animation.AnimatorInflater.loadStateListAnimator(
-                requireContext(),
-                R.animator.nav_button_state_animator
-            )
-            isFocusable = true
-            isClickable = true
-            
-            setOnClickListener {
-                startActivity(ActivityDestinations.userPreferences(requireContext()))
-            }
-        }
-    }
-    
+
     private fun getDisplayNameForCollectionType(collectionType: CollectionType?, fallbackName: String?): String? {
         return when (collectionType) {
             CollectionType.MOVIES -> "Movies"

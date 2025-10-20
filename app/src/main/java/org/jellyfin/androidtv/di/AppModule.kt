@@ -50,6 +50,7 @@ import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.PlaybackHelper
+import org.jellyfin.androidtv.util.UserSwitchHelper
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper
 import org.jellyfin.androidtv.util.coil.CoilTimberLogger
 import org.jellyfin.androidtv.util.coil.createCoilConnectivityChecker
@@ -134,6 +135,7 @@ val appModule = module {
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 	single { ThemeSongPlayer(get(), get()) }
 	single { ThemeSongService(get(), get(), get(), get()) }
+	single { UserSwitchHelper(get(), get()) }
 
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }
